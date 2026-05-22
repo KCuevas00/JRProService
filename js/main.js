@@ -244,59 +244,68 @@ navLinks.forEach(link => {
     }
 });
 
-/* ===================================
-   BEFORE & AFTER SLIDER AUTO-REVEAL
-   =================================== */
-const sliders = document.querySelectorAll('img-comparison-slider');
+// ============================================================
+// BEFORE & AFTER - Scroll-triggered auto-reveal
+// ============================================================
+function initBeforeAfterReveal() {
+    const sliders = document.querySelectorAll('img-comparison-slider');
+    if (!sliders.length) return;
 
-if (sliders.length > 0) {
-    // Ease-out function for smooth animation
-    function easeOut(t) {
-        return 1 - Math.pow(1 - t, 3);
-    }
-    
-    // Animate slider value from 0 to 50
-    function animateSlider(slider) {
+    const animateSlider = (slider) => {
+        if (slider.dataset.animated) return;
+        slider.dataset.animated = 'true';
+
+        let start = null;
         const duration = 1200;
-        const startTime = performance.now();
-        const startValue = 0;
-        const endValue = 50;
-        
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
+        const from = 0;
+        const to = 50;
+
+        const step = (timestamp) => {
+            if (!start) start = timestamp;
+            const elapsed = timestamp - start;
             const progress = Math.min(elapsed / duration, 1);
-            const easedProgress = easeOut(progress);
-            const currentValue = startValue + (endValue - startValue) * easedProgress;
-            
-            slider.value = currentValue;
-            
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            }
+            // ease-out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            slider.value = from + (to - from) * eased;
+            if (progress < 1) requestAnimationFrame(step);
+        };
+
+        // Wait for component to be ready before animating
+        if (typeof slider.value !== 'undefined') {
+            slider.value = 0;
+            requestAnimationFrame(step);
+        } else {
+            // Component not ready yet — wait for it
+            slider.addEventListener('ready', () => {
+                slider.value = 0;
+                requestAnimationFrame(step);
+            }, { once: true });
+
+            // Fallback: try again after 300ms if 'ready' never fires
+            setTimeout(() => {
+                if (!slider.dataset.animated) return;
+                slider.value = 0;
+                requestAnimationFrame(step);
+            }, 300);
         }
-        
-        requestAnimationFrame(update);
-    }
-    
-    // Intersection Observer to detect when sliders enter viewport
+    };
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.dataset.animated) {
-                // Mark as animated so it doesn't trigger again
-                entry.target.dataset.animated = 'true';
-                
-                // Animate from 0 to 50
-                entry.target.value = 0;
+            if (entry.isIntersecting) {
                 animateSlider(entry.target);
+                observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.3, // Trigger when 30% of slider is visible
-        rootMargin: '0px 0px -50px 0px' // Slight offset for better UX
-    });
-    
-    // Observe all sliders
-    sliders.forEach(slider => {
-        observer.observe(slider);
+    }, { threshold: 0.3 });
+
+    // Wait for web component to register before observing
+    customElements.whenDefined('img-comparison-slider').then(() => {
+        sliders.forEach(slider => {
+            slider.value = 0; // start fully on "before"
+            observer.observe(slider);
+        });
     });
 }
+
+initBeforeAfterReveal();
