@@ -123,6 +123,8 @@ a {
 
 .navbar-brand:hover span {
     color: #c9a84c;
+    text-decoration: underline;
+    text-decoration-color: #c9a84c;
 }
 
 .navbar-social {
@@ -315,6 +317,42 @@ section {
 
 .service-card h3 {
     font-size: 1.25rem;
+}
+
+.service-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.service-card ul li {
+    margin-bottom: 4px;
+}
+
+.service-section-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.service-section-content ul li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 16px;
+}
+
+.service-section-content ul li::before {
+    content: "—";
+    color: #c9a84c;
+    position: absolute;
+    left: 0;
 }
 
 /* ===================================
@@ -774,4 +812,35 @@ section {
     .lightbox-close {
         font-size: 1.5rem;
     }
+}
+
+/* ===================================
+   BEFORE & AFTER DRAG LABELS
+   =================================== */
+img-comparison-slider {
+    position: relative;
+}
+
+.ba-label {
+    position: absolute;
+    bottom: 12px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: white;
+    background: rgba(0,0,0,0.45);
+    padding: 5px 10px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.ba-label--before {
+    left: 12px;
+}
+
+.ba-label--after {
+    right: 12px;
 }
