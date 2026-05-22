@@ -16,9 +16,14 @@
     <!-- NAVBAR - Same on all pages -->
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
-            <img src="images/logo.jpg" alt="JR ProService" style="height: 48px; width: auto; vertical-align: middle; margin-right: 12px;">
-            <span style="font-family: var(--font-heading); font-weight: 700; color: var(--text-light); font-size: 1.1rem; vertical-align: middle;">JR ProService</span>
+            <img src="images/logo.jpg" alt="JR ProService" style="height: 48px; width: auto;">
+            <span>JR ProService</span>
         </a>
+        <div class="navbar-social">
+            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="tel:6308819216"><i class="fas fa-phone"></i></a>
+            <a href="mailto:jesusruiz251995@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
         <div class="navbar-links">
             <a href="index.html">Home</a>
             <a href="gallery.html">Gallery</a>
@@ -36,6 +41,11 @@
         <a href="beforeafter.html">Before & After</a>
         <a href="services.html">Services</a>
         <a href="contact.html">Contact</a>
+        <div class="navbar-mobile-social">
+            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="tel:6308819216"><i class="fas fa-phone"></i></a>
+            <a href="mailto:jesusruiz251995@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
     </div>
 
     <!-- SERVICES PAGE -->
@@ -50,8 +60,7 @@
                 <p>New builds, additions, and full room drywall from scratch. Hung, taped, mudded, and sanded smooth.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/drywall/filename.jpg"> -->
-                <div class="img-placeholder">Drywall Installation</div>
+                <img src="images/drywall2.jpg" alt="Drywall installation project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
         
@@ -63,8 +72,7 @@
                 <p>Holes, cracks, water damage, or anything that needs to disappear. Matched to the existing texture so you can't tell it was ever there.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/drywall/filename.jpg"> -->
-                <div class="img-placeholder">Drywall Repair</div>
+                <img src="images/drywallbefore.jpg" alt="Drywall repair project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
         
@@ -76,8 +84,7 @@
                 <p>Walls, trim, ceilings. Clean lines, no mess left behind.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/painting/filename.jpg"> -->
-                <div class="img-placeholder">Interior Painting</div>
+                <img src="images/kitchenpaintafter.jpg" alt="Interior painting project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
         
@@ -89,8 +96,7 @@
                 <p>Skip trowel, smooth finish, knockdown, popcorn removal. Whatever the ceiling needs.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/ceilings/filename.jpg"> -->
-                <div class="img-placeholder">Ceiling Textures</div>
+                <img src="images/room.jpg" alt="Ceiling texture project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
         
@@ -102,8 +108,7 @@
                 <p>Raw basement to finished space. Drywall, paint, and everything in between.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/basements/filename.jpg"> -->
-                <div class="img-placeholder">Basement Finishing</div>
+                <img src="images/basementalmostfinished.jpg" alt="Basement finishing project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
         
@@ -115,15 +120,14 @@
                 <p>Offices, retail, multi-unit. Larger jobs handled with the same quality as residential.</p>
             </div>
             <div class="service-section-image">
-                <!-- Replace with <img src="images/drywall/filename.jpg"> -->
-                <div class="img-placeholder">Commercial Work</div>
+                <img src="images/largelivingroomprepscaffold.jpg" alt="Commercial work project" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" loading="lazy">
             </div>
         </div>
     </section>
 
     <!-- FOOTER - Same on all pages -->
     <footer class="footer" style="background-color: #111111; border-top: 2px solid #c9a84c; padding: 48px 32px 32px;">
-        <div style="max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
+        <div class="footer-grid" style="max-width: var(--max-width); margin: 0 auto;">
             <!-- Column 1 - Brand -->
             <div style="text-align: left;">
                 <img src="images/logo.jpg" alt="JR ProService" style="height: 64px; width: auto; margin-bottom: 16px;">
@@ -172,15 +176,6 @@
             © 2025 JR ProService Drywall & Painting
         </div>
     </footer>
-    
-    <style>
-        @media (max-width: 768px) {
-            .footer > div:first-child {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-    </style>
 
     <script src="js/main.js"></script>
 </body>
