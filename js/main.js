@@ -80,29 +80,12 @@ if (lightbox && lightboxImage) {
             updateVisibleItems();
             currentImageIndex = visibleItems.indexOf(item);
             
-            // For now, use the placeholder text as the "image source"
-            // When real images are added, this will need to be updated to use the img src
-            const placeholder = item.querySelector('.img-placeholder');
-            if (placeholder) {
-                lightboxImage.src = '';
-                lightboxImage.alt = placeholder.textContent;
-                lightboxImage.style.display = 'none';
-                
-                // Create a temporary div to show the placeholder content
-                const tempDiv = document.createElement('div');
-                tempDiv.className = 'img-placeholder';
-                tempDiv.style.height = '400px';
-                tempDiv.style.width = '100%';
-                tempDiv.style.maxWidth = '90%';
-                tempDiv.style.maxHeight = '90%';
-                tempDiv.textContent = placeholder.textContent;
-                
-                // Replace the image with the placeholder div
-                lightboxImage.parentNode.insertBefore(tempDiv, lightboxImage);
-                lightboxImage.style.display = 'none';
-                
-                // Store reference to remove later
-                lightbox.tempPlaceholder = tempDiv;
+            // Get the image source from the clicked item
+            const img = item.querySelector('img');
+            if (img) {
+                lightboxImage.src = img.src;
+                lightboxImage.alt = img.alt;
+                lightboxImage.style.display = 'block';
             }
             
             lightbox.classList.add('open');
@@ -114,12 +97,7 @@ if (lightbox && lightboxImage) {
     function closeLightbox() {
         lightbox.classList.remove('open');
         document.body.style.overflow = '';
-        
-        // Remove temporary placeholder if exists
-        if (lightbox.tempPlaceholder) {
-            lightbox.tempPlaceholder.remove();
-            lightbox.tempPlaceholder = null;
-        }
+        lightboxImage.src = '';
     }
     
     if (lightboxClose) {
@@ -146,24 +124,10 @@ if (lightbox && lightboxImage) {
         currentImageIndex = (currentImageIndex - 1 + visibleItems.length) % visibleItems.length;
         const prevItem = visibleItems[currentImageIndex];
         
-        // Remove old placeholder
-        if (lightbox.tempPlaceholder) {
-            lightbox.tempPlaceholder.remove();
-        }
-        
-        const placeholder = prevItem.querySelector('.img-placeholder');
-        if (placeholder) {
-            const tempDiv = document.createElement('div');
-            tempDiv.className = 'img-placeholder';
-            tempDiv.style.height = '400px';
-            tempDiv.style.width = '100%';
-            tempDiv.style.maxWidth = '90%';
-            tempDiv.style.maxHeight = '90%';
-            tempDiv.textContent = placeholder.textContent;
-            
-            lightboxImage.parentNode.insertBefore(tempDiv, lightboxImage);
-            lightboxImage.style.display = 'none';
-            lightbox.tempPlaceholder = tempDiv;
+        const img = prevItem.querySelector('img');
+        if (img) {
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
         }
     }
     
@@ -173,24 +137,10 @@ if (lightbox && lightboxImage) {
         currentImageIndex = (currentImageIndex + 1) % visibleItems.length;
         const nextItem = visibleItems[currentImageIndex];
         
-        // Remove old placeholder
-        if (lightbox.tempPlaceholder) {
-            lightbox.tempPlaceholder.remove();
-        }
-        
-        const placeholder = nextItem.querySelector('.img-placeholder');
-        if (placeholder) {
-            const tempDiv = document.createElement('div');
-            tempDiv.className = 'img-placeholder';
-            tempDiv.style.height = '400px';
-            tempDiv.style.width = '100%';
-            tempDiv.style.maxWidth = '90%';
-            tempDiv.style.maxHeight = '90%';
-            tempDiv.textContent = placeholder.textContent;
-            
-            lightboxImage.parentNode.insertBefore(tempDiv, lightboxImage);
-            lightboxImage.style.display = 'none';
-            lightbox.tempPlaceholder = tempDiv;
+        const img = nextItem.querySelector('img');
+        if (img) {
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
         }
     }
     
@@ -293,3 +243,60 @@ navLinks.forEach(link => {
         link.classList.remove('active');
     }
 });
+
+/* ===================================
+   BEFORE & AFTER SLIDER AUTO-REVEAL
+   =================================== */
+const sliders = document.querySelectorAll('img-comparison-slider');
+
+if (sliders.length > 0) {
+    // Ease-out function for smooth animation
+    function easeOut(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+    
+    // Animate slider value from 0 to 50
+    function animateSlider(slider) {
+        const duration = 1200;
+        const startTime = performance.now();
+        const startValue = 0;
+        const endValue = 50;
+        
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOut(progress);
+            const currentValue = startValue + (endValue - startValue) * easedProgress;
+            
+            slider.value = currentValue;
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+        
+        requestAnimationFrame(update);
+    }
+    
+    // Intersection Observer to detect when sliders enter viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                // Mark as animated so it doesn't trigger again
+                entry.target.dataset.animated = 'true';
+                
+                // Animate from 0 to 50
+                entry.target.value = 0;
+                animateSlider(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.3, // Trigger when 30% of slider is visible
+        rootMargin: '0px 0px -50px 0px' // Slight offset for better UX
+    });
+    
+    // Observe all sliders
+    sliders.forEach(slider => {
+        observer.observe(slider);
+    });
+}
