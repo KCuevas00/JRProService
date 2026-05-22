@@ -309,3 +309,16 @@ function initBeforeAfterReveal() {
 }
 
 initBeforeAfterReveal();
+
+/* ===================================
+   SCROLL INDICATOR
+   =================================== */
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+        const servicesSection = document.querySelector('.services-grid');
+        if (servicesSection) {
+            servicesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
