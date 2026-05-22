@@ -322,3 +322,30 @@ if (scrollIndicator) {
         }
     });
 }
+
+// ============================================================
+// BEFORE & AFTER - Drag labels
+// ============================================================
+document.querySelectorAll('img-comparison-slider').forEach(slider => {
+    let fadeTimeout;
+    const labels = slider.querySelectorAll('.ba-label');
+
+    slider.addEventListener('mousedown', () => {
+        clearTimeout(fadeTimeout);
+        labels.forEach(l => l.style.opacity = '1');
+    });
+    slider.addEventListener('touchstart', () => {
+        clearTimeout(fadeTimeout);
+        labels.forEach(l => l.style.opacity = '1');
+    });
+    slider.addEventListener('mouseup', () => {
+        fadeTimeout = setTimeout(() => {
+            labels.forEach(l => l.style.opacity = '0');
+        }, 800);
+    });
+    slider.addEventListener('touchend', () => {
+        fadeTimeout = setTimeout(() => {
+            labels.forEach(l => l.style.opacity = '0');
+        }, 800);
+    });
+});
