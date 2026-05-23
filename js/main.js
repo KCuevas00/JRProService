@@ -331,24 +331,65 @@ if (scrollIndicator) {
 // ============================================================
 document.querySelectorAll('img-comparison-slider').forEach(slider => {
     let fadeTimeout;
+    let dragInterval;
     const labels = slider.querySelectorAll('.ba-label');
+    const hint = slider.parentElement.querySelector('.ba-hint');
+    const hintTop = slider.parentElement.querySelector('.ba-hint-top');
+    const hintTopLabel = hintTop ? hintTop.querySelector('.ba-hint-top--label') : null;
+
+    // Update label based on slider position
+    const updateHintLabel = () => {
+        if (!hintTopLabel) return;
+        const value = slider.value || 0;
+        hintTopLabel.textContent = value < 50 ? 'BEFORE' : 'AFTER';
+    };
+
+    // Initialize label on load
+    if (hintTopLabel) {
+        updateHintLabel();
+    }
+
+    const startDragPolling = () => {
+        if (dragInterval) clearInterval(dragInterval);
+        dragInterval = setInterval(updateHintLabel, 16); // ~60fps
+    };
+
+    const stopDragPolling = () => {
+        if (dragInterval) {
+            clearInterval(dragInterval);
+            dragInterval = null;
+        }
+    };
 
     slider.addEventListener('mousedown', () => {
         clearTimeout(fadeTimeout);
         labels.forEach(l => l.style.opacity = '1');
+        if (hint) hint.classList.add('hidden');
+        if (hintTop) hintTop.classList.add('visible');
+        updateHintLabel();
+        startDragPolling();
     });
     slider.addEventListener('touchstart', () => {
         clearTimeout(fadeTimeout);
         labels.forEach(l => l.style.opacity = '1');
+        if (hint) hint.classList.add('hidden');
+        if (hintTop) hintTop.classList.add('visible');
+        updateHintLabel();
+        startDragPolling();
     });
     slider.addEventListener('mouseup', () => {
         fadeTimeout = setTimeout(() => {
             labels.forEach(l => l.style.opacity = '0');
         }, 800);
+        if (hintTop) hintTop.classList.remove('visible');
+        stopDragPolling();
     });
     slider.addEventListener('touchend', () => {
         fadeTimeout = setTimeout(() => {
             labels.forEach(l => l.style.opacity = '0');
         }, 800);
+        if (hintTop) hintTop.classList.remove('visible');
+        stopDragPolling();
     });
+    slider.addEventListener('mouseleave', stopDragPolling);
 });

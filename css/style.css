@@ -883,3 +883,68 @@ img-comparison-slider {
 .ba-label--after {
     right: 12px;
 }
+
+.ba-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 20;
+}
+
+.ba-hint.hidden {
+    opacity: 0;
+}
+
+.ba-slider-wrapper {
+    position: relative;
+}
+
+/* Pulse animation for hint text */
+@keyframes hintPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+.ba-hint {
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+.ba-hint-top {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 20;
+}
+
+.ba-hint-top--label {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.ba-hint-top.visible {
+    opacity: 1;
+}
