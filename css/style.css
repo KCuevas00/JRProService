@@ -903,6 +903,7 @@ img-comparison-slider {
 
 .ba-hint.hidden {
     opacity: 0;
+    animation: none;
 }
 
 .ba-slider-wrapper {
@@ -923,6 +924,8 @@ img-comparison-slider {
 
 .ba-hint {
     animation: hintPulse 2s ease-in-out infinite;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .ba-hint-top {
