@@ -391,5 +391,4 @@ document.querySelectorAll('img-comparison-slider').forEach(slider => {
         if (hintTop) hintTop.classList.remove('visible');
         stopDragPolling();
     });
-    slider.addEventListener('mouseleave', stopDragPolling);
 });
