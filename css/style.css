@@ -924,8 +924,11 @@ img-comparison-slider {
 
 .ba-hint {
     animation: hintPulse 2s ease-in-out infinite;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 16px 24px;
+    border-radius: 8px;
 }
 
 .ba-hint-top {
