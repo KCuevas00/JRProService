@@ -125,6 +125,8 @@ a {
     color: #c9a84c;
     text-decoration: underline;
     text-decoration-color: #c9a84c;
+    text-underline-offset: 4px;
+    transition: color 250ms ease, text-decoration 250ms ease, text-underline-offset 250ms ease;
 }
 
 .navbar-social {
@@ -280,6 +282,17 @@ section {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
     margin-bottom: var(--spacing-lg);
     font-weight: 700;
+}
+
+.hero .phone a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 250ms ease, transform 250ms ease;
+}
+
+.hero .phone a:hover {
+    color: #c9a84c;
+    transform: translateY(-2px);
 }
 
 .hero .btn {
@@ -722,10 +735,38 @@ section {
 
 .footer-contact a {
     color: var(--text-light);
+    transition: color 250ms ease, transform 250ms ease;
 }
 
 .footer-contact a:hover {
     color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.footer-social-link {
+    color: #c9a84c;
+    font-size: 24px;
+    opacity: 0.8;
+    transition: color 250ms ease, transform 250ms ease, opacity 250ms ease;
+}
+
+.footer-social-link:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.footer-phone-link {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 250ms ease, transform 250ms ease;
+}
+
+.footer-phone-link:hover {
+    color: #c9a84c;
+    transform: translateY(-2px);
 }
 
 .footer-location {
