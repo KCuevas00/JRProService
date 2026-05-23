@@ -327,6 +327,50 @@ if (scrollIndicator) {
 }
 
 // ============================================================
+// GALLERY SLIDESHOW
+// ============================================================
+const gallerySlideshow = document.querySelector('.gallery-slideshow');
+if (gallerySlideshow) {
+    const slides = gallerySlideshow.querySelectorAll('.gallery-slide');
+    const progressBar = document.createElement('div');
+    progressBar.className = 'gallery-progress';
+    gallerySlideshow.appendChild(progressBar);
+    
+    let currentSlide = 0;
+    let progressInterval;
+    const slideDuration = 3000; // 3 seconds
+    const progressUpdateInterval = 50; // Update every 50ms
+    
+    const showSlide = (index) => {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+    };
+    
+    const startProgress = () => {
+        progressBar.style.transition = 'none';
+        progressBar.style.width = '0%';
+        setTimeout(() => {
+            progressBar.style.transition = `width ${slideDuration}ms linear`;
+            progressBar.style.width = '100%';
+        }, 10);
+    };
+    
+    const nextSlide = () => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+        startProgress();
+    };
+    
+    // Start progress bar and slide cycling
+    startProgress();
+    setInterval(nextSlide, slideDuration);
+}
+
+// ============================================================
 // BEFORE & AFTER - Drag labels
 // ============================================================
 document.querySelectorAll('img-comparison-slider').forEach(slider => {
