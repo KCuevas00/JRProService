@@ -910,6 +910,11 @@ img-comparison-slider {
     position: relative;
 }
 
+/* Before/After Slider - Grayscale effect on before images */
+img-comparison-slider img[slot="before"] {
+    filter: grayscale(40%) saturate(90%);
+}
+
 /* Preview Sections */
 .preview-section {
     padding: var(--spacing-xl) var(--spacing-lg);
