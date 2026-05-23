@@ -301,9 +301,12 @@ function initBeforeAfterReveal() {
 
     // Wait for web component to register before observing
     customElements.whenDefined('img-comparison-slider').then(() => {
-        sliders.forEach(slider => {
+        sliders.forEach((slider, index) => {
             slider.value = 0; // start fully on "before"
-            observer.observe(slider);
+            // Only animate the first two sliders as a tutorial
+            if (index < 2) {
+                observer.observe(slider);
+            }
         });
     });
 }
