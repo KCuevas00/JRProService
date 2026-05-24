@@ -7,6 +7,18 @@ const navbarMobile = document.querySelector('.navbar-mobile');
 if (navbarToggle && navbarMobile) {
     navbarToggle.addEventListener('click', () => {
         navbarMobile.classList.toggle('open');
+        // Prevent body scroll when mobile menu is open
+        if (navbarMobile.classList.contains('open')) {
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${window.scrollY}px`;
+            document.body.style.width = '100%';
+        } else {
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
     });
     
     // Close mobile nav when clicking a link
@@ -14,6 +26,11 @@ if (navbarToggle && navbarMobile) {
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
             navbarMobile.classList.remove('open');
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
         });
     });
 }
