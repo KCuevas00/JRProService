@@ -344,6 +344,12 @@ section {
     padding: var(--spacing-xxl) var(--spacing-lg);
 }
 
+.hero-logo {
+    width: auto;
+    height: clamp(80px, 14vw, 200px);
+    margin-bottom: var(--spacing-md);
+}
+
 .hero h1 {
     margin-bottom: var(--spacing-md);
 }
@@ -538,6 +544,12 @@ section {
 .gallery-masonry {
     columns: 3;
     column-gap: var(--spacing-sm);
+}
+
+.gallery-masonry img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .gallery-item {
@@ -895,33 +907,13 @@ section {
     }
 
     .navbar-actions {
-        margin-left: auto;
-        gap: 8px;
-    }
-
-    .navbar-actions .navbar-fb {
         display: none;
-    }
-
-    .navbar-actions .navbar-call {
-        padding: 0;
-        width: 36px;
-        height: 36px;
-        justify-content: center;
-        gap: 0;
-    }
-
-    .navbar-actions .navbar-call-text {
-        display: none;
-    }
-
-    .navbar-actions .navbar-call i {
-        font-size: 0.9375rem;
     }
 
     .navbar-toggle {
         display: block;
         flex-shrink: 0;
+        margin-left: auto;
     }
     
     .services-grid {

@@ -36,39 +36,6 @@ if (navbarToggle && navbarMobile) {
 }
 
 /* ===================================
-   GALLERY FILTER
-   =================================== */
-const filterBtns = document.querySelectorAll('.filter-btn');
-const galleryItems = document.querySelectorAll('.gallery-item');
-
-if (filterBtns.length > 0 && galleryItems.length > 0) {
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            const filter = btn.getAttribute('data-filter');
-            
-            galleryItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                
-                if (filter === 'all' || category === filter) {
-                    item.classList.remove('hidden');
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        });
-    });
-}
-
-/* ===================================
    LIGHTBOX
    =================================== */
 const lightbox = document.getElementById('lightbox');
@@ -83,18 +50,11 @@ if (lightbox && lightboxImage) {
     // Get all gallery items
     const allGalleryItems = document.querySelectorAll('.gallery-item');
     
-    // Function to update visible items based on current filter
-    function updateVisibleItems() {
-        visibleItems = Array.from(allGalleryItems).filter(item => !item.classList.contains('hidden'));
-    }
-    
-    // Initial update
-    updateVisibleItems();
+    visibleItems = Array.from(allGalleryItems);
     
     // Open lightbox when clicking a gallery item
-    allGalleryItems.forEach((item, index) => {
+    allGalleryItems.forEach((item) => {
         item.addEventListener('click', () => {
-            updateVisibleItems();
             currentImageIndex = visibleItems.indexOf(item);
             
             // Get the image source from the clicked item
