@@ -60,17 +60,22 @@
             <img src="images/logo.jpg" alt="JR ProService" style="height: 48px; width: auto;">
             <span>JR ProService</span>
         </a>
-        <div class="navbar-social">
-            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="tel:6308819216"><i class="fas fa-phone"></i></a>
-            <a href="mailto:jesusruiz251995@gmail.com"><i class="fas fa-envelope"></i></a>
-        </div>
         <div class="navbar-links">
             <a href="index.html">Home</a>
             <a href="gallery.html">Gallery</a>
             <a href="beforeafter.html" class="active">Before & After</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank" rel="noopener noreferrer" class="navbar-fb" aria-label="Visit us on Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="tel:6308819216" class="navbar-call" aria-label="Call (630) 881-9216">
+                <i class="fas fa-phone" aria-hidden="true"></i>
+                <span class="navbar-call-text">
+                    <span class="navbar-call-label">Call Now</span>
+                    <span class="navbar-call-number">(630) 881-9216</span>
+                </span>
+            </a>
         </div>
         <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
     </nav>
@@ -82,10 +87,15 @@
         <a href="beforeafter.html">Before & After</a>
         <a href="services.html">Services</a>
         <a href="contact.html">Contact</a>
-        <div class="navbar-mobile-social">
-            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="tel:6308819216"><i class="fas fa-phone"></i></a>
-            <a href="mailto:jesusruiz251995@gmail.com"><i class="fas fa-envelope"></i></a>
+        <div class="navbar-mobile-actions">
+            <a href="tel:6308819216" class="navbar-mobile-action" aria-label="Call (630) 881-9216">
+                <i class="fas fa-phone" aria-hidden="true"></i>
+                <span>Call</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61565772269072" target="_blank" rel="noopener noreferrer" class="navbar-mobile-action" aria-label="Visit us on Facebook">
+                <i class="fab fa-facebook" aria-hidden="true"></i>
+                <span>Facebook</span>
+            </a>
         </div>
     </div>
 
@@ -98,8 +108,34 @@
                 <p style="font-size: 1.125rem; opacity: 0.8; margin-top: 8px;">Real results from real jobs.</p>
             </div>
         </div>
-        
+
         <div class="beforeafter-grid">
+            <div class="ba-slider-wrapper">
+                <img-comparison-slider>
+                    <img slot="before" src="images/basementbefore2.jpg" alt="Basement before finishing" loading="lazy">
+                    <img slot="after" src="images/basementfinishing.jpg" alt="Basement after finishing" loading="lazy">
+                    <span class="ba-label ba-label--before">BEFORE</span>
+                    <span class="ba-label ba-label--after">AFTER</span>
+                </img-comparison-slider>
+                <div class="ba-hint"><span class="ba-hint-arrow" aria-hidden="true">←</span> Drag the handle <span class="ba-hint-arrow" aria-hidden="true">→</span></div>
+                <div class="ba-hint-top">
+                    <span class="ba-hint-top--label">BEFORE</span>
+                </div>
+            </div>
+            
+            <div class="ba-slider-wrapper">
+                <img-comparison-slider>
+                    <img slot="before" src="images/housebefore.jpg" alt="House exterior before painting" loading="lazy">
+                    <img slot="after" src="images/housefinished.jpg" alt="House exterior after painting" loading="lazy">
+                    <span class="ba-label ba-label--before">BEFORE</span>
+                    <span class="ba-label ba-label--after">AFTER</span>
+                </img-comparison-slider>
+                <div class="ba-hint"><span class="ba-hint-arrow" aria-hidden="true">←</span> Drag the handle <span class="ba-hint-arrow" aria-hidden="true">→</span></div>
+                <div class="ba-hint-top">
+                    <span class="ba-hint-top--label">BEFORE</span>
+                </div>
+            </div>
+
             <div class="ba-slider-wrapper">
                 <img-comparison-slider>
                     <img slot="before" src="images/kitchenpaintbefore.jpg" alt="Kitchen before painting" loading="lazy">
@@ -107,7 +143,6 @@
                     <span class="ba-label ba-label--before">BEFORE</span>
                     <span class="ba-label ba-label--after">AFTER</span>
                 </img-comparison-slider>
-                <div class="ba-hint">→ Slide to compare</div>
                 <div class="ba-hint-top">
                     <span class="ba-hint-top--label">BEFORE</span>
                 </div>
@@ -120,7 +155,6 @@
                     <span class="ba-label ba-label--before">BEFORE</span>
                     <span class="ba-label ba-label--after">AFTER</span>
                 </img-comparison-slider>
-                <div class="ba-hint">→ Slide to compare</div>
                 <div class="ba-hint-top">
                     <span class="ba-hint-top--label">BEFORE</span>
                 </div>
@@ -222,29 +256,6 @@
                 </div>
             </div>
             
-            <div class="ba-slider-wrapper">
-                <img-comparison-slider>
-                    <img slot="before" src="images/basementbefore2.jpg" alt="Basement before finishing 2" loading="lazy">
-                    <img slot="after" src="images/basementfinishing.jpg" alt="Basement after finishing 2" loading="lazy">
-                    <span class="ba-label ba-label--before">BEFORE</span>
-                    <span class="ba-label ba-label--after">AFTER</span>
-                </img-comparison-slider>
-                <div class="ba-hint-top">
-                    <span class="ba-hint-top--label">BEFORE</span>
-                </div>
-            </div>
-            
-            <div class="ba-slider-wrapper">
-                <img-comparison-slider>
-                    <img slot="before" src="images/housebefore.jpg" alt="House before painting" loading="lazy">
-                    <img slot="after" src="images/housefinished.jpg" alt="House after painting" loading="lazy">
-                    <span class="ba-label ba-label--before">BEFORE</span>
-                    <span class="ba-label ba-label--after">AFTER</span>
-                </img-comparison-slider>
-                <div class="ba-hint-top">
-                    <span class="ba-hint-top--label">BEFORE</span>
-                </div>
-            </div>
         </div>
     </section>
 
