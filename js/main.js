@@ -316,13 +316,31 @@ function initBeforeAfterReveal() {
         });
     }, { threshold: 0.3 });
 
+    const setSliderValue = (slider, value) => {
+        if (typeof slider.value !== 'undefined') {
+            slider.value = value;
+            return;
+        }
+        slider.addEventListener('ready', () => {
+            slider.value = value;
+        }, { once: true });
+        setTimeout(() => {
+            if (typeof slider.value !== 'undefined') {
+                slider.value = value;
+            }
+        }, 300);
+    };
+
     // Wait for web component to register before observing
     customElements.whenDefined('img-comparison-slider').then(() => {
         sliders.forEach((slider, index) => {
-            slider.value = 0; // start fully on "before"
-            // Only animate the first two sliders as a tutorial
             if (index < 2) {
+                // Tutorial pair: start on "before", animate to center when scrolled in
+                setSliderValue(slider, 0);
                 observer.observe(slider);
+            } else {
+                // Rest: start centered, no overlay hint
+                setSliderValue(slider, 50);
             }
         });
     });
