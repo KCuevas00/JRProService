@@ -60,7 +60,7 @@ if (lightbox && lightboxImage) {
             // Get the image source from the clicked item
             const img = item.querySelector('img');
             if (img) {
-                lightboxImage.src = img.src;
+                lightboxImage.src = img.dataset.src || img.src;
                 lightboxImage.alt = img.alt;
                 lightboxImage.style.display = 'block';
             }
@@ -103,7 +103,7 @@ if (lightbox && lightboxImage) {
         
         const img = prevItem.querySelector('img');
         if (img) {
-            lightboxImage.src = img.src;
+            lightboxImage.src = img.dataset.src || img.src;
             lightboxImage.alt = img.alt;
         }
     }
@@ -130,7 +130,7 @@ if (lightbox && lightboxImage) {
         
         const img = nextItem.querySelector('img');
         if (img) {
-            lightboxImage.src = img.src;
+            lightboxImage.src = img.dataset.src || img.src;
             lightboxImage.alt = img.alt;
         }
     }
