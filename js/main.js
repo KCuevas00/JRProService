@@ -107,6 +107,20 @@ if (lightbox && lightboxImage) {
             lightboxImage.alt = img.alt;
         }
     }
+
+    // Recompute the list of visible items for lightbox navigation
+    function updateVisibleItems() {
+        visibleItems = Array.from(document.querySelectorAll('.gallery-item')).filter(it => !it.classList.contains('hidden'));
+        // Try to preserve currentImageIndex by matching current displayed src
+        const curSrc = lightboxImage.src;
+        if (curSrc) {
+            const idx = visibleItems.findIndex(it => {
+                const img = it.querySelector('img');
+                return img && (img.src === curSrc || img.dataset.src === curSrc || (img.src && curSrc.endsWith(img.src)));
+            });
+            if (idx !== -1) currentImageIndex = idx;
+        }
+    }
     
     // Navigate to next image
     function showNextImage() {
@@ -364,6 +378,131 @@ if (gallerySlideshow) {
     startProgress();
     setInterval(nextSlide, slideDuration);
 }
+
+// ============================================================
+// GALLERY: lazy load, fade-in, and filters
+// ============================================================
+function initGallery() {
+    const gallery = document.querySelector('.gallery-masonry');
+    if (!gallery) return;
+
+    // Move existing src -> data-src for images that weren't updated server-side
+    const imgs = Array.from(gallery.querySelectorAll('img'));
+    imgs.forEach(img => {
+        if (!img.dataset.src && img.src) {
+            img.dataset.src = img.src;
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+            img.classList.add('lazy');
+        }
+    });
+
+    // Categorize images by filename and collect categories
+    const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+    const categories = new Set();
+    items.forEach(item => {
+        const img = item.querySelector('img');
+        const src = (img.dataset.src || '').toLowerCase();
+        let cat = 'other';
+
+        // Specific mapping for painted door step centered image
+        if (src.includes('paintedoorstepcentered')) {
+            cat = 'exterior';
+        } else if (src.includes('kitchen')) cat = 'kitchens';
+        else if (src.includes('basement')) cat = 'basements';
+        else if (src.includes('bath')) cat = 'bathrooms';
+        else if (src.includes('garage')) cat = 'garage';
+        else if (src.includes('stair')) cat = 'staircases';
+        // Group living rooms, bedrooms and general "room" images into 'rooms'
+        else if (src.includes('room') || src.includes('living')) cat = 'rooms';
+        // Exterior matches
+        else if (src.includes('patio') || src.includes('house') || src.includes('frontdoor') || src.includes('paintedfrontdoor') || src.includes('paintedoor')) cat = 'exterior';
+        // Treat drywall images as 'other' so there's no separate drywall filter
+        else if (src.includes('drywall')) cat = 'other';
+
+        item.dataset.category = cat;
+        categories.add(cat);
+    });
+
+    // Build filter buttons with preferred ordering and 'other' last
+    const filtersEl = document.getElementById('gallery-filters');
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn active';
+    allBtn.dataset.filter = 'all';
+    allBtn.textContent = 'All';
+    filtersEl.appendChild(allBtn);
+
+    const preferredOrder = ['kitchens', 'rooms', 'staircases', 'bathrooms', 'basements', 'garage', 'exterior'];
+
+    // Add preferred categories in order when present
+    preferredOrder.forEach(cat => {
+        if (categories.has(cat)) {
+            const b = document.createElement('button');
+            b.className = 'filter-btn';
+            b.dataset.filter = cat;
+            b.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+            filtersEl.appendChild(b);
+        }
+    });
+
+    // Add any remaining categories (excluding 'other') sorted
+    const remaining = Array.from(categories).filter(c => !preferredOrder.includes(c) && c !== 'other').sort();
+    remaining.forEach(cat => {
+        const b = document.createElement('button');
+        b.className = 'filter-btn';
+        b.dataset.filter = cat;
+        b.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        filtersEl.appendChild(b);
+    });
+
+    // Ensure 'other' is last
+    if (categories.has('other')) {
+        const b = document.createElement('button');
+        b.className = 'filter-btn';
+        b.dataset.filter = 'other';
+        b.textContent = 'Other';
+        filtersEl.appendChild(b);
+    }
+
+    // Filter click
+    filtersEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        filtersEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        items.forEach(i => {
+            if (filter === 'all' || i.dataset.category === filter) i.classList.remove('hidden');
+            else i.classList.add('hidden');
+        });
+        // update visible items for lightbox navigation
+        visibleItems = Array.from(document.querySelectorAll('.gallery-item')).filter(it => !it.classList.contains('hidden'));
+    });
+
+    // Lazy load with IntersectionObserver and fade-in
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                img.addEventListener('load', () => {
+                    const parent = img.closest('.gallery-item');
+                    if (parent) parent.classList.add('visible');
+                }, { once: true });
+                io.unobserve(img);
+            }
+        });
+    }, { rootMargin: '120px 0px' });
+
+    imgs.forEach(img => io.observe(img));
+
+    // Initially set visibleItems
+    visibleItems = Array.from(document.querySelectorAll('.gallery-item'));
+}
+
+document.addEventListener('DOMContentLoaded', initGallery);
 
 // ============================================================
 // BEFORE & AFTER - Drag labels

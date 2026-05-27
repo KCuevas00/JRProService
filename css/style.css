@@ -399,6 +399,17 @@ section {
     transition: border-color var(--transition-fast);
 }
 
+/* Mobile hero image adjustments to avoid over-zooming */
+@media (max-width: 768px) {
+    .hero {
+        /* Allow the background to scroll on mobile and reposition to show more of the image */
+        background-attachment: scroll !important;
+        background-position: center top !important;
+        background-size: auto 120% !important;
+        padding: calc(var(--spacing-xl) / 2) var(--spacing-lg);
+    }
+}
+
 .service-card:hover {
     border-color: var(--accent);
 }
@@ -561,6 +572,43 @@ section {
 
 .gallery-item.hidden {
     display: none;
+}
+
+/* Lazy-load fade-in */
+.gallery-item img {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 420ms ease, transform 420ms ease;
+    will-change: opacity, transform;
+}
+
+.gallery-item.visible img {
+    opacity: 1;
+    transform: none;
+}
+
+/* Filters bar */
+.gallery-filters {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.gallery-filters .filter-btn {
+    padding: 8px 12px;
+    background: var(--bg-card);
+    color: var(--text-light);
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.gallery-filters .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg-dark);
 }
 
 .img-placeholder {
